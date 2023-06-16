@@ -5,13 +5,27 @@ const framePlayer = new Player(videoPlayer)
 
 const onPlay = () => framePlayer.getCurrentTime().then(function(seconds) {
     localStorage.setItem("videoplayer-current-time", seconds)
-    console.log(seconds)
+    
 }).catch(function(error) {
    
 });
-const savedSetting =localStorage.getItem("videoplayer-current-time")
-const parsedSetting = JSON.parse(savedSetting)
+let savedSetting;
+let parsedSetting
+if(localStorage.getItem("videoplayer-current-time") !== null){
+     savedSetting =localStorage.getItem("videoplayer-current-time")
+parsedSetting = JSON.parse(savedSetting)
+}
+
 
 framePlayer.on("timeupdate", throttle(onPlay,1000))
 
-framePlayer.setCurrentTime(parsedSetting)
+framePlayer.setCurrentTime(parsedSetting).catch(function(error){
+    switch (error.name) {
+        case 'RangeError':
+            // the time was less than 0 or greater than the video’s duration
+            break;
+
+        default:
+            // some other error occurred
+            break;
+}})

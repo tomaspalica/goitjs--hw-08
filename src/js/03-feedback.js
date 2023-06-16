@@ -3,6 +3,9 @@ const form = document.querySelector(".feedback-form")
 const email = document.querySelector("form.feedback-form input[name='email']")
 const message = document.querySelector("form.feedback-form textarea[name='message']")
 
+
+
+
 const addToStorage = (event) =>{
     const feedbackFormState = {
         email : email.value,
@@ -24,7 +27,7 @@ message.value = "";
 
 form.addEventListener("submit",formSend)
 const checkStorage = () => {
-    if (localStorage.getItem("feedback-form-state") === ""){
+    if (localStorage.getItem("feedback-form-state") === null ){
         return 
     } else {
         email.value = JSON.parse(localStorage.getItem("feedback-form-state")).email
